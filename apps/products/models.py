@@ -22,6 +22,7 @@ class Product(BaseMoodel):
     name = models.CharField(max_length=255, verbose_name="Mahsulot nomi")
     description = models.TextField(verbose_name="Mahsulot tavsifi")
     price = models.DecimalField(max_digits=10 , decimal_places=2, verbose_name="Narxi")
+    img = models.ImageField(upload_to='products/', verbose_name='Rasim', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Mahsulot'
@@ -42,7 +43,7 @@ class Order(BaseMoodel):
     def total_price(self):
         return sum(
             item.subtotal
-            for item in self.item.all()
+            for item in self.order_items.all()
         )
 
     def __str__(self):
@@ -68,6 +69,6 @@ class OrderItem(BaseMoodel):
         
     def __str__(self):
         product = self.product.name if self.product else "O'chirilgan mahsulot"
-        return f"OrderItem #{self.id} - {product.name}"
+        return f"OrderItem #{self.id} - {product}"
 
     

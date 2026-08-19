@@ -3,30 +3,38 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
     <title>Kirish</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link
+        rel="stylesheet"
+        href="{% static 'css/style.css' %}"
+    >
 </head>
 <body>
 <div class="auth-page">
     <div class="auth-card">
         <div class="auth-icon">👤</div>
         <h1>Xush kelibsiz!</h1>
-        <p>Hozircha faqat ismingizni kiriting</p>
-        <!-- <form action="#" method="post">
-        <div class="form-group">
-            <label>Ismingiz</label>
-            <input type="text" name="username" placeholder="Masalan: Jamshidbek" required>
-        </div>
-        <button class="btn primary" type="submit">Kirish →</button>
-        </form> -->
-        <form action="products.html" method="get">
+        <p>Username kiriting</p>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" style="color:red; margin-bottom:10px">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
             <div class="form-group">
-                <label>Ismingiz</label>
-                <input type="text" name="username" placeholder="Masalan: Jamshidbek" required>
+                {{ form }}
             </div>
-
-            <button class="btn primary" type="submit">
+            <button
+                class="btn primary"
+                type="submit"
+            >
                 Kirish →
             </button>
         </form>

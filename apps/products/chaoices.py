@@ -1,6 +1,8 @@
 from django.db import models
 
 class OrderStatus(models.TextChoices):
-    PENDING = 'pending', 'Pending'
-    ON_WAY = 'on_way', 'On Way'
-    DELIVERED = 'delivered', 'Delivered'
+    PENDING = 'pending', 'Kutilmoqda'
+    CONFIRMED = 'confirmed', 'Tasdiqlangan'
+    DELIVERING = 'delivering', 'Yetkazilmoqda'
+    COMPLETED = 'completed', 'Yetkazildi'
+    CANCELLED = 'cancelled', 'Bekor qilindi'

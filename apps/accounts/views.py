@@ -11,26 +11,28 @@ User = get_user_model()
 
 @csrf_exempt
 def login(request):
-    
     form = UserForm()
-    
-    if request.method == 'POST':
+    if request.method == "POST":
         form = UserForm(request.POST)
         if form.is_valid():
-
-            
+            username = form.cleaned_data["username"]
             try:
-                username_input = form.cleaned_data.get('username')
-                user = User.objects.get(username=username_input)
-                auth_login(request, user)
-                return redirect('products:products')
+                user = User.objects.get(username=username)
+                if user.is_active:
+                    print("######u", username)
+                    print("#######", request.POST)
+                    return redirect("products:products")
+                else:
+                    messages.error(
+                        request,
+                        "Sizning hisobingiz faol emas!"
+                    )
             except User.DoesNotExist:
-                # 3. Agar ism topilmasa, xatolik ko'rsatamiz
-                messages.error(request, "Bunday foydalanuvchi topilmadi!")          
-        else:
-            print(form.errors)
+                messages.error(
+                    request,
+                    "Bunday username mavjud emas!"
+                )
     context = {
         "form":form
     }
-    
     return render(request, 'login.html', {'form': form})

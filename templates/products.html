@@ -5,18 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mahsulotlar</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 <header class="header">
-    <a class="logo" href="products.html">
+    <a class="logo" href="{% url 'products:products'%}">
         Food<span>Delivery</span>
     </a>
     <nav class="nav">
-        <a href="products.html">Mahsulotlar</a>
+        <a href="{% url 'products:products'%}">Mahsulotlar</a>
         <a href="orders.html">Buyurtmalar</a>
         <a href="cart.html">🛒 Savat</a>
-        <span>👤 Jamshidbek</span>
+        <span>👤 {{ user.first_name }}</span>
     </nav>
 </header>
 <main class="container">

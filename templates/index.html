@@ -1,33 +1,52 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
+
     <title>Food Delivery</title>
-    <link rel="stylesheet" href="css/style.css">
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/style.css' %}"
+    >
+
 </head>
+
 <body>
+    <div class="admin-link">
+        <a href="{% url 'admin:index' %}">
+            admin panelga kirish
+        </a>
+    </div>
     <div class="auth-page">
         <div class="auth-card">
+
             <div class="auth-icon">
-                🍔
+                <img src="media/logo.jpg" alt="Food Delivery Logo" width="200" height="200">
             </div>
+
             <h1>
                 Food Delivery
             </h1>
+
             <p>
                 Buyurtma berish uchun tizimga kiring
             </p>
+
             <a
                 class="btn primary"
-                href="login.html"
+                href="{% url 'accounts:login' %}"
             >
                 Login ga kirish →
             </a>
+
         </div>
     </div>
 </body>

@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 
+
 User = get_user_model()
 
 class UserForm(forms.Form):
@@ -11,7 +12,7 @@ class UserForm(forms.Form):
         widget = forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Masalan: Jamshidbek'
+                'placeholder': 'Username'
             }
         ),
         required=True
