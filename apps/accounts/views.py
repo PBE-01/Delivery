@@ -17,16 +17,13 @@ def login(request):
         if form.is_valid():
             username = form.cleaned_data["username"]
             try:
+                print("######", username)
                 user = User.objects.get(username=username)
-                if user.is_active:
-                    print("######u", username)
-                    print("#######", request.POST)
-                    return redirect("products:products")
-                else:
-                    messages.error(
-                        request,
-                        "Sizning hisobingiz faol emas!"
-                    )
+                auth_login(request=request, user=user)
+                print("######user", username)
+                print("#######", request.POST)
+                return redirect("products:products")
+                
             except User.DoesNotExist:
                 messages.error(
                     request,

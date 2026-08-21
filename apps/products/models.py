@@ -70,5 +70,3 @@ class OrderItem(BaseMoodel):
     def __str__(self):
         product = self.product.name if self.product else "O'chirilgan mahsulot"
         return f"OrderItem #{self.id} - {product}"
-
-    

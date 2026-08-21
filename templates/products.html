@@ -16,7 +16,7 @@
         <a href="{% url 'products:products'%}">Mahsulotlar</a>
         <a href="orders.html">Buyurtmalar</a>
         <a href="cart.html">🛒 Savat</a>
-        <span>👤 {{ user.first_name }}</span>
+        <span>👤 {{ request.user.first_name }}</span>
     </nav>
 </header>
 <main class="container">
@@ -25,10 +25,12 @@
             <h1>Mahsulotlar</h1>
             <p>Kategoriyadan mahsulot tanlang</p>
         </div>
-        <input
-            style="padding:11px;border:1px solid #ddd;border-radius:8px"
-            placeholder="Qidirish..."
-        >
+        <form action="" method="get">
+            {% csrf_token %}
+            <input name="search" style="padding:11px;border:1px solid #ddd;border-radius:8px" placeholder="Qidirish..." value="{{search}}">
+            <button class="btn primary">Qidirish</button>
+        </form>
+        
     </div>
     <div class="sidebar-layout">
         <aside class="card categories">
@@ -36,145 +38,77 @@
             <a class="active" href="#">
                 Barchasi
             </a>
-            <a href="#">
-                🍔 Burger
-            </a>
-            <a href="#">
-                🍕 Pizza
-            </a>
-            <a href="#">
-                🌯 Fast Food
-            </a>
-            <a href="#">
-                🥤 Ichimliklar
-            </a>
+            {% for category in categories%}
+                <a href="#">
+                        {{ category.name }}
+                </a>
+            {% endfor %}
         </aside>
         <section class="grid">
-            <article class="card">
-                <div class="product-image">
-                    🍔
-                </div>
-                <span class="badge">
-                    Burger
-                </span>
-                <h3>
-                    Classic Burger
-                </h3>
-                <p class="muted">
-                    Mazali mol go'shtli burger.
-                </p>
-                <div class="product-footer">
-                    <span class="price">
-                        25 000 so'm
+            {% for product in products %}
+                <article class="card">
+                    <div class="product-image"
+                        style="
+                            width: 100%;
+                            height: 180px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            overflow: hidden;
+                            background: #fff1ec;
+                        ">
+
+                        {% if product.img %}
+                            <img
+                                src="{{ product.img.url }}"
+                                alt="{{ product.name }}"
+                                style="
+                                    width: 150px !important;
+                                    height: 150px !important;
+                                    max-width: 150px !important;
+                                    max-height: 150px !important;
+                                    object-fit: contain !important;
+                                    display: block !important;
+                                "
+                            >
+                        {% else %}
+                            <img
+                                src="{% static 'css/no_image.jpg' %}"
+                                alt="No image"
+                                style="
+                                    width: 150px !important;
+                                    height: 150px !important;
+                                    max-width: 150px !important;
+                                    max-height: 150px !important;
+                                    object-fit: contain !important;
+                                    display: block !important;
+                                "
+                            >
+                        {% endif %}
+                    </div>
+                    <span class="badge">
+                        {{ product.category.name }}
                     </span>
-                    <a
-                        class="btn primary"
-                        href="product-detail.html"
-                    >
-                        Ko'rish
-                    </a>
-                </div>
-            </article>
-            <article class="card">
-                <div class="product-image">
-                    🍔
-                </div>
-                <span class="badge">
-                    Burger
-                </span>
-                <h3>
-                    Cheese Burger
-                </h3>
-                <p class="muted">
-                    Pishloqli burger.
-                </p>
-                <div class="product-footer">
-                    <span class="price">
-                        30 000 so'm
-                    </span>
-                    <a
-                        class="btn primary"
-                        href="product-detail.html"
-                    >
-                        Ko'rish
-                    </a>
-                </div>
-            </article>
-            <article class="card">
-                <div class="product-image">
-                    🍕
-                </div>
-                <span class="badge">
-                    Pizza
-                </span>
-                <h3>
-                    Pepperoni Pizza
-                </h3>
-                <p class="muted">
-                    Pepperoni va pishloqli pizza.
-                </p>
-                <div class="product-footer">
-                    <span class="price">
-                        55 000 so'm
-                    </span>
-                    <a
-                        class="btn primary"
-                        href="product-detail.html"
-                    >
-                        Ko'rish
-                    </a>
-                </div>
-            </article>
-            <article class="card">
-                <div class="product-image">
-                    🌯
-                </div>
-                <span class="badge">
-                    Fast Food
-                </span>
-                <h3>
-                    Lavash
-                </h3>
-                <p class="muted">
-                    Mol go'shtli lavash.
-                </p>
-                <div class="product-footer">
-                    <span class="price">
-                        30 000 so'm
-                    </span>
-                    <a
-                        class="btn primary"
-                        href="product-detail.html"
-                    >
-                        Ko'rish
-                    </a>
-                </div>
-            </article>
-            <article class="card">
-                <div class="product-image">
-                    🥤
-                </div>
-                <span class="badge">
-                    Ichimlik
-                </span>
-                <h3>
-                    Coca Cola
-                </h3>
-                <p class="muted">
-                    Coca Cola 0.5 litr.
-                </p>
-                <div class="product-footer">
-                    <span class="price">
-                        10 000 so'm
-                    </span>
-                    <a
-                        class="btn primary"
-                        href="product-detail.html"
-                    >
-                        Ko'rish
-                    </a>
-                </div>
-            </article>
+                    <h3>
+                        {{ product.name }}
+                    </h3>
+                    <p class="muted">
+                        {{ product.description }}
+                    </p>
+                    <div class="product-footer">
+                        <span class="price">
+                        {{product.price}} so'm
+                        </span>
+                        <a
+                            class="btn primary"
+                            href="{% url 'products:product_detail' product.pk %}"
+                        >
+                            Ko'rish
+                        </a>
+                    </div>
+                </article>
+            {% endfor %}
+                
         </section>
     </div>
 </main>
